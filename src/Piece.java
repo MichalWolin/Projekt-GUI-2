@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public abstract class Piece {
+public abstract class Piece implements UnicodePiece, Movable{
     private Colour colour;
     private int y, x;
     private boolean firstMove;
@@ -37,10 +37,6 @@ public abstract class Piece {
         return firstMove;
     }
 
-    public abstract String toString();
-
-    public abstract boolean isMoveValid(int y, int x);
-
     public boolean isMoveValidAndNotChecked(int destY, int destX){
         if(!isMoveValid(destY, destX)){
             return false;
@@ -66,7 +62,6 @@ public abstract class Piece {
             this.setY(originalY);
             this.setX(originalX);
             Board.setPiecePos(this);
-
 
             return true;
         }

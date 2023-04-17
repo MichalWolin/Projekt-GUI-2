@@ -1,4 +1,4 @@
-public class King extends Piece {
+public class King extends Piece{
     public King(Colour colour, int y, int x) {
         super(colour, y, x);
     }

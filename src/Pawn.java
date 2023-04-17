@@ -1,4 +1,4 @@
-public class Pawn extends Piece {
+public class Pawn extends Piece{
     public Pawn(Colour colour, int y, int x) {
         super(colour, y, x);
     }
