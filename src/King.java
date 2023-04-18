@@ -22,10 +22,10 @@ public class King extends Piece{
                 return false;
             }
         }
-
-        if(Math.abs(srcY - destY) == 0 && Math.abs(srcX - destX) == 2 || Math.abs(srcX - destX) == 1){
-            return true;
-        }
+        //TODO trzeba to usunac i dac do castlingu imo, usunac ismovevalid and not checked i zastapic sztucznym ischecked
+//        if(Math.abs(srcY - destY) == 0 && Math.abs(srcX - destX) == 2 || Math.abs(srcX - destX) == 1){
+//            return true;
+//        }
 
         if(Math.abs(srcY - destY) == 1 && Math.abs(srcX - destX) == 1 ||
                 Math.abs(srcY - destY) == 1 && Math.abs(srcX - destX) == 0 ||
@@ -75,15 +75,49 @@ public class King extends Piece{
 
         if(srcX == 5 && destX == 8){
             if(piece instanceof Rook){
-                if(king.isMoveValidAndNotChecked(srcY, 6) && king.isMoveValidAndNotChecked(srcY, 7)){
+                king.setX(6);
+                Board.setPiecePos(king);
+
+                if(!Board.isChecked(new int[]{destY, 6})){
+                    king.revertMove(null, destY, 6, srcY, srcX);
+                }else{
+                    king.revertMove(null, destY, 6, srcY, srcX);
+                    return false;
+                }
+
+                king.setX(7);
+                Board.setPiecePos(king);
+
+                if(!Board.isChecked(new int[]{destY, 7})){
+                    king.revertMove(null, destY, 7, srcY, srcX);
                     return true;
+                }else{
+                    king.revertMove(null, destY, 7, srcY, srcX);
+                    return false;
                 }
             }
         }else if(srcX == 5 && destX == 1){
             Piece probablyRook = Board.getPiece(srcY, 1);
             if(probablyRook instanceof Rook){
-                if(king.isMoveValidAndNotChecked(srcY, 4) && king.isMoveValidAndNotChecked(srcY, 3)){
+                king.setX(4);
+                Board.setPiecePos(king);
+
+                if(!Board.isChecked(new int[]{destY, 4})){
+                    king.revertMove(null, destY, 4, srcY, srcX);
+                }else{
+                    king.revertMove(null, destY, 4, srcY, srcX);
+                    return false;
+                }
+
+                king.setX(3);
+                Board.setPiecePos(king);
+
+                if(!Board.isChecked(new int[]{destY, 3})){
+                    king.revertMove(null, destY, 3, srcY, srcX);
                     return true;
+                }else{
+                    king.revertMove(null, destY, 3, srcY, srcX);
+                    return false;
                 }
             }
         }
