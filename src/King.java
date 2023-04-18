@@ -22,10 +22,6 @@ public class King extends Piece{
                 return false;
             }
         }
-        //TODO trzeba to usunac i dac do castlingu imo, usunac ismovevalid and not checked i zastapic sztucznym ischecked
-//        if(Math.abs(srcY - destY) == 0 && Math.abs(srcX - destX) == 2 || Math.abs(srcX - destX) == 1){
-//            return true;
-//        }
 
         if(Math.abs(srcY - destY) == 1 && Math.abs(srcX - destX) == 1 ||
                 Math.abs(srcY - destY) == 1 && Math.abs(srcX - destX) == 0 ||
