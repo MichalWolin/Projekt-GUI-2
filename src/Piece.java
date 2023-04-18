@@ -51,20 +51,16 @@ public abstract class Piece implements UnicodePiece, Movable{
 
         int[] kingPosition = Board.findKing(this.getColour());
         if(!Board.isChecked(kingPosition)){
-
-            if(piece != null){
-                piece.setY(destY);
-                piece.setX(destX);
-                Board.setPiecePos(piece);
-            }else{
-                Board.tileSetNull(destY, destX);
-            }
-            this.setY(originalY);
-            this.setX(originalX);
-            Board.setPiecePos(this);
+            revertMove(piece, destY, destX, originalY, originalX);
 
             return true;
         }
+        revertMove(piece, destY, destX, originalY, originalX);
+
+        return false;
+    }
+
+    public void revertMove(Piece piece, int destY, int destX, int originalY, int originalX){
         if(piece != null){
             piece.setY(destY);
             piece.setX(destX);
@@ -75,8 +71,6 @@ public abstract class Piece implements UnicodePiece, Movable{
         this.setY(originalY);
         this.setX(originalX);
         Board.setPiecePos(this);
-
-        return false;
     }
 
     public void movePiece(int destY, int destX){

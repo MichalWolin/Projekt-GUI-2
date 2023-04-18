@@ -10,27 +10,27 @@ public class Board {
     public static void startTheGame(){
         board = new ArrayList[9][9];
         new Rook(Colour.WHITE, 1, 1);
-        new Knight(Colour.WHITE, 1, 2);
-        new Bishop(Colour.WHITE, 1, 3);
-        new Queen(Colour.WHITE, 1, 4);
+//        new Knight(Colour.WHITE, 1, 2);
+//        new Bishop(Colour.WHITE, 1, 3);
+//        new Queen(Colour.WHITE, 1, 4);
         new King(Colour.WHITE, 1, 5);
-        new Bishop(Colour.WHITE, 1, 6);
-        new Knight(Colour.WHITE, 1, 7);
+//        new Bishop(Colour.WHITE, 1, 6);
+//        new Knight(Colour.WHITE, 1, 7);
         new Rook(Colour.WHITE, 1, 8);
 
         new Rook(Colour.BLACK, 8, 1);
-        new Knight(Colour.BLACK, 8, 2);
-        new Bishop(Colour.BLACK, 8, 3);
+//        new Knight(Colour.BLACK, 8, 2);
+//        new Bishop(Colour.BLACK, 8, 3);
         new Queen(Colour.BLACK, 8, 4);
         new King(Colour.BLACK, 8, 5);
-        new Bishop(Colour.BLACK, 8, 6);
-        new Knight(Colour.BLACK, 8, 7);
+//        new Bishop(Colour.BLACK, 8, 6);
+//        new Knight(Colour.BLACK, 8, 7);
         new Rook(Colour.BLACK, 8, 8);
 
-        for(int i = 1; i <= 8; i++){
-            new Pawn(Colour.WHITE, 2, i);
-            new Pawn(Colour.BLACK, 7, i);
-        }
+//        for(int i = 1; i <= 8; i++){
+//            new Pawn(Colour.WHITE, 2, i);
+//            new Pawn(Colour.BLACK, 7, i);
+//        }
     }
 
     public static void printBoard(){
@@ -160,11 +160,6 @@ public class Board {
             srcX += changeX;
 
             if(srcY == 9 || srcX == 9 || srcY == 0 || srcX == 0){
-                return false;
-            }
-
-            int[] kingPosition = {srcY, srcX};
-            if(Board.getPiece(srcY, srcX) instanceof King && !isChecked(kingPosition)){
                 return false;
             }
 

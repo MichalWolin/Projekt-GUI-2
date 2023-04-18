@@ -23,7 +23,7 @@ public class King extends Piece{
             }
         }
 
-        if(Math.abs(srcY - destY) == 0 && Math.abs(srcX - destX) == 2){
+        if(Math.abs(srcY - destY) == 0 && Math.abs(srcX - destX) == 2 || Math.abs(srcX - destX) == 1){
             return true;
         }
 
@@ -50,29 +50,11 @@ public class King extends Piece{
 
         int[] possibleKingPosition = {destY, destX};
         if(!Board.isChecked(possibleKingPosition)){
-            if(piece != null){
-                piece.setY(destY);
-                piece.setX(destX);
-                Board.setPiecePos(piece);
-            }else{
-                Board.tileSetNull(destY, destX);
-            }
-            this.setY(originalY);
-            this.setX(originalX);
-            Board.setPiecePos(this);
+            revertMove(piece, destY, destX, originalY, originalX);
 
             return true;
         }
-        if(piece != null){
-            piece.setY(destY);
-            piece.setX(destX);
-            Board.setPiecePos(piece);
-        }else{
-            Board.tileSetNull(destY, destX);
-        }
-        this.setY(originalY);
-        this.setX(originalX);
-        Board.setPiecePos(this);
+        revertMove(piece, destY, destX, originalY, originalX);
 
         return false;
     }
@@ -93,14 +75,14 @@ public class King extends Piece{
 
         if(srcX == 5 && destX == 8){
             if(piece instanceof Rook){
-                if(king.isMoveValidAndNotChecked(srcY, 7)){
+                if(king.isMoveValidAndNotChecked(srcY, 6) && king.isMoveValidAndNotChecked(srcY, 7)){
                     return true;
                 }
             }
         }else if(srcX == 5 && destX == 1){
             Piece probablyRook = Board.getPiece(srcY, 1);
             if(probablyRook instanceof Rook){
-                if(king.isMoveValidAndNotChecked(srcY, 3)){
+                if(king.isMoveValidAndNotChecked(srcY, 4) && king.isMoveValidAndNotChecked(srcY, 3)){
                     return true;
                 }
             }
