@@ -17,14 +17,14 @@ public class S29239Projekt02 {
                 colour = whoseTurn % 2 == 0 ? Colour.WHITE : Colour.BLACK;
                 int[] kingPosition = Board.findKing(colour);
 
-                if(Board.isChecked(kingPosition)){
-                    if(Board.isCheckedMated(kingPosition)){
-                        System.out.println("-----Checkmate!-----");
-                        isBeingPlayed = false;
-                        continue;
-                    }
-                    System.out.println("Your king is checked!");
-                }
+//                if(Board.isChecked(kingPosition)){
+//                    if(Board.isCheckedMated(kingPosition)){
+//                        System.out.println("-----Checkmate!-----");
+//                        isBeingPlayed = false;
+//                        continue;
+//                    }
+//                    System.out.println("Your king is checked!");
+//                }
 
                 if(whiteDraw || blackDraw){
                     if(whoseTurn % 2 == 1){

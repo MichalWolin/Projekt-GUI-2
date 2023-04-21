@@ -87,35 +87,6 @@ public abstract class Piece implements UnicodePiece, Movable{
         Board.setPiecePos(this);
         this.setFirstMove(false);
         Board.tileSetNull(sourceY, sourceX);
-
-        if(this instanceof Pawn && (destY == 1 || destY == 8)){
-            Scanner scanner = new Scanner(System.in);
-            System.out.println("Choose a piece to promote to! (rook, knight, bishop, queen): ");
-            boolean inputValid = false;
-            while(!inputValid){
-                String input = scanner.nextLine();
-                inputValid = true;
-                switch(input){
-                    case "rook" -> {
-                        new Rook(this.getColour(), destY, destX);
-                    }
-                    case "knight" -> {
-                        new Knight(this.getColour(), destY, destX);
-                    }
-                    case "bishop" -> {
-                        new Bishop(this.getColour(), destY, destX);
-                    }
-                    case "queen" -> {
-                        new Queen(this.getColour(), destY, destX);
-                    }
-                    default -> {
-                        System.out.println("Invalid input, please try again.");
-                        inputValid = false;
-                    }
-                }
-            }
-            System.out.println("Piece promoted!\n");
-        }
     }
 
     public void setFirstMove(boolean isFirst){

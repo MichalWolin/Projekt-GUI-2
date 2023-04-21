@@ -3,9 +3,7 @@ public class Knight extends Piece{
         super(colour, y, x);
     }
 
-    public String toString() {
-        return getColour() == Colour.WHITE ? "♘" : "♞";
-    }
+    public String toString(){return Colour.WHITE == this.getColour() ? "♞" : "\u001B[30m♞";}
 
     @Override
     public boolean isMoveValid(int y, int x) {

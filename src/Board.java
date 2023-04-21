@@ -10,45 +10,50 @@ public class Board {
     public static void startTheGame(){
         board = new ArrayList[9][9];
         new Rook(Colour.WHITE, 1, 1);
-//        new Knight(Colour.WHITE, 1, 2);
-//        new Bishop(Colour.WHITE, 1, 3);
-//        new Queen(Colour.WHITE, 1, 4);
+        new Knight(Colour.WHITE, 1, 2);
+        new Bishop(Colour.WHITE, 1, 3);
+        new Queen(Colour.WHITE, 1, 4);
         new King(Colour.WHITE, 1, 5);
-//        new Bishop(Colour.WHITE, 1, 6);
-//        new Knight(Colour.WHITE, 1, 7);
+        new Bishop(Colour.WHITE, 1, 6);
+        new Knight(Colour.WHITE, 1, 7);
         new Rook(Colour.WHITE, 1, 8);
 
         new Rook(Colour.BLACK, 8, 1);
-//        new Knight(Colour.BLACK, 8, 2);
-//        new Bishop(Colour.BLACK, 8, 3);
+        new Knight(Colour.BLACK, 8, 2);
+        new Bishop(Colour.BLACK, 8, 3);
         new Queen(Colour.BLACK, 8, 4);
         new King(Colour.BLACK, 8, 5);
-//        new Bishop(Colour.BLACK, 8, 6);
-//        new Knight(Colour.BLACK, 8, 7);
+        new Bishop(Colour.BLACK, 8, 6);
+        new Knight(Colour.BLACK, 8, 7);
         new Rook(Colour.BLACK, 8, 8);
 
-//        for(int i = 1; i <= 8; i++){
-//            new Pawn(Colour.WHITE, 2, i);
-//            new Pawn(Colour.BLACK, 7, i);
-//        }
+        new Pawn(Colour.BLACK, 4, 5);
+        for(int i = 1; i <= 8; i++){
+            new Pawn(Colour.WHITE, 2, i);
+            new Pawn(Colour.BLACK, 7, i);
+        }
     }
 
     public static void printBoard(){
         System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, StandardCharsets.UTF_8));
 
-        System.out.println("  \u2009A\u2009\u2009\u2009B\u2009\u2009\u200AC\u2009\u2009\u200AD" +
-                            "\u2009\u2009\u200AE\u2009\u2009\u200AF\u2009\u2009\u200AG\u2009\u2009\u200AH");
+        System.out.println("  \u2009\u200AA \u200AB\u2009\u2009\u200A\u200AC \u200AD" +
+                "\u2009\u2009\u200AE \u200AF\u2009\u2009\u200A\u200AG \u200AH");
         for (int i = 8; i > 0; i--) {
             System.out.print(i + " ");
             for (int j = 1; j < 9; j++) {
                 if(board[i][j] == null){
                     if((i + j) % 2 != 0) {
-                        System.out.print("▮\u200A");
+                        System.out.print("\u001B[48;2;255;206;158m \u200A\u2009\u2009\u200A\u001B[0m");
                     }else{
-                        System.out.print("▯\u200A");
+                        System.out.print("\u001B[48;2;209;139;71m \u200A\u2009\u2009\u200A\u001B[0m");
                     }
                 }else{
-                    System.out.print(board[i][j].get(0) + "\u200A");
+                    if((i + j) % 2 != 0) {
+                        System.out.print("\u001B[48;2;255;206;158m\u200A" + board[i][j].get(0) + "\u200A\u001B[0m");
+                    }else{
+                        System.out.print("\u001B[48;2;209;139;71m\u200A" + board[i][j].get(0) + "\u200A\u001B[0m");
+                    }
                 }
             }
             System.out.print(" " + i + " ");
@@ -57,7 +62,7 @@ public class Board {
                     System.out.print("Captured pieces:");
                     for (int j = 0; j < board[0][0].size(); j++) {
                         if(board[0][0].get(j).getColour() == Colour.WHITE){
-                            System.out.print(board[0][0].get(j) + " ");
+                            System.out.print(board[0][0].get(j));
                         }
                     }
                 }else if(i == 8){
@@ -71,13 +76,13 @@ public class Board {
             }
             System.out.println();
         }
-        System.out.println("  \u2009A\u2009\u2009\u2009B\u2009\u2009\u200AC\u2009\u2009\u200AD" +
-                "\u2009\u2009\u200AE\u2009\u2009\u200AF\u2009\u2009\u200AG\u2009\u2009\u200AH\n");
+        System.out.println("  \u2009\u200AA \u200AB\u2009\u2009\u200A\u200AC \u200AD" +
+                "\u2009\u2009\u200AE \u200AF\u2009\u2009\u200A\u200AG \u200AH\n");
     }
 
     public static void setPiecePos(Piece piece){
         if(board[piece.getY()][piece.getX()] == null) {
-            board[piece.getY()][piece.getX()] = new ArrayList<Piece>();
+            board[piece.getY()][piece.getX()] = new ArrayList<>();
         }else{
             board[piece.getY()][piece.getX()].clear();
         }
@@ -136,12 +141,14 @@ public class Board {
             }
         }
 
+        flushEnPassantable(colour);
+
         return true;
     }
 
     public static void capturePiece(Piece piece){
         if(board[0][0] == null) {
-            board[0][0] = new ArrayList<Piece>();
+            board[0][0] = new ArrayList<>();
         }
         board[0][0].add(piece);
     }
@@ -255,5 +262,23 @@ public class Board {
 
     public static void tileSetNull(int y, int x){
         board[y][x] = null;
+    }
+
+    public static void flushEnPassantable(Colour colour){
+        int y;
+        if(colour == Colour.WHITE){
+            y = 5;
+        }else{
+            y = 4;
+        }
+
+        for (int x = 1; x < 9; x++) {
+            Piece piece = Board.getPiece(y, x);
+            if(piece != null){
+                if(piece instanceof Pawn){
+                    ((Pawn)piece).setEnPassantable(false);
+                }
+            }
+        }
     }
 }
