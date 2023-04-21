@@ -1,6 +1,7 @@
 public class Bishop extends Piece{
     public Bishop(Colour colour, int y, int x) {
         super(colour, y, x);
+        this.setValue(4);
     }
 
     public String toString() {

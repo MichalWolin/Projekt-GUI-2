@@ -1,6 +1,7 @@
 public class Rook extends Piece{
     public Rook(Colour colour, int y, int x) {
         super(colour, y, x);
+        this.setValue(3);
     }
 
     public String toString() {

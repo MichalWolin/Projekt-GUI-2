@@ -1,6 +1,4 @@
-import java.io.FileDescriptor;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
@@ -27,7 +25,6 @@ public class Board {
         new Knight(Colour.BLACK, 8, 7);
         new Rook(Colour.BLACK, 8, 8);
 
-        new Pawn(Colour.BLACK, 4, 5);
         for(int i = 1; i <= 8; i++){
             new Pawn(Colour.WHITE, 2, i);
             new Pawn(Colour.BLACK, 7, i);
@@ -150,6 +147,8 @@ public class Board {
         if(board[0][0] == null) {
             board[0][0] = new ArrayList<>();
         }
+        piece.setY(0);
+        piece.setX(0);
         board[0][0].add(piece);
     }
 
@@ -279,6 +278,83 @@ public class Board {
                     ((Pawn)piece).setEnPassantable(false);
                 }
             }
+        }
+    }
+
+    public static void saveGame() {
+        File file = new File("src/chess.bin");
+
+        try{
+            FileOutputStream fos = new FileOutputStream(file);
+
+            if(board[0][0] != null){
+                for (int i = 0; i < board[0][0].size(); i++) {
+                    Piece piece = board[0][0].get(i);
+                    int colour = piece.getColour() == Colour.WHITE ? 0 : 1;
+                    int y = piece.getY();
+                    int x = piece.getX();
+                    int type = piece.getPieceTypeValue();
+                    int data = colour << 11 | y << 7 | x << 3 | type;
+                    fos.write(data >> 8);
+                    fos.write(data);
+                }
+            }
+
+            for (int i = 1; i <= 8; i++) {
+                for (int j = 1; j <= 8; j++) {
+                    if(board[i][j] != null){
+                        Piece piece = board[i][j].get(0);
+                        int colour = piece.getColour() == Colour.WHITE ? 0 : 1;
+                        int y = piece.getY();
+                        int x = piece.getX();
+                        int type = piece.getPieceTypeValue();
+                        int data = colour << 11 | y << 7 | x << 3 | type;
+                        fos.write(data >> 8);
+                        fos.write(data);
+                    }
+                }
+            }
+
+            fos.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public static void loadGame(){
+        File file = new File("src/chess.bin");
+
+        for (int i = 1; i <= 8; i++) {
+            for (int j = 1; j <= 8; j++) {
+                tileSetNull(i, j);
+            }
+        }
+
+        try{
+            FileInputStream fis = new FileInputStream(file);
+            int data;
+            while((data = fis.read() << 8 | fis.read()) != -1) {
+                int colour = data >> 11 & 0b1;
+                int y = data >> 7 & 0b1111;
+                int x = data >> 3 & 0b1111;
+                int type = data & 0b111;
+
+                switch(type){
+                    case 0 -> new Pawn(colour == 0 ? Colour.WHITE : Colour.BLACK, y, x);
+                    case 1 -> new King(colour == 0 ? Colour.WHITE : Colour.BLACK, y, x);
+                    case 2 -> new Queen(colour == 0 ? Colour.WHITE : Colour.BLACK, y, x);
+                    case 3 -> new Rook(colour == 0 ? Colour.WHITE : Colour.BLACK, y, x);
+                    case 4 -> new Bishop(colour == 0 ? Colour.WHITE : Colour.BLACK, y, x);
+                    case 5 -> new Knight(colour == 0 ? Colour.WHITE : Colour.BLACK, y, x);
+                }
+            }
+            printBoard();
+            fis.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -1,6 +1,7 @@
 public class Queen extends Piece{
     public Queen(Colour colour, int y, int x) {
         super(colour, y, x);
+        this.setValue(2);
     }
 
     public String toString() {

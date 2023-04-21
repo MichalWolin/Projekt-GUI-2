@@ -17,14 +17,14 @@ public class S29239Projekt02 {
                 colour = whoseTurn % 2 == 0 ? Colour.WHITE : Colour.BLACK;
                 int[] kingPosition = Board.findKing(colour);
 
-//                if(Board.isChecked(kingPosition)){
-//                    if(Board.isCheckedMated(kingPosition)){
-//                        System.out.println("-----Checkmate!-----");
-//                        isBeingPlayed = false;
-//                        continue;
-//                    }
-//                    System.out.println("Your king is checked!");
-//                }
+                if(Board.isChecked(kingPosition)){
+                    if(Board.isCheckedMated(kingPosition)){
+                        System.out.println("-----Checkmate!-----");
+                        isBeingPlayed = false;
+                        continue;
+                    }
+                    System.out.println("Your king is checked!");
+                }
 
                 if(whiteDraw || blackDraw){
                     if(whoseTurn % 2 == 1){
@@ -39,39 +39,50 @@ public class S29239Projekt02 {
                 String input = scanner.nextLine();
                 System.out.println();
 
-                if(input.equals("exit")){
-                    System.exit(0);
-                }else if(input.equals("draw")) {
-                    if (colour == Colour.WHITE) {
-                        whiteDraw = true;
-                    } else {
-                        blackDraw = true;
-                    }
-                    if (whiteDraw && blackDraw) {
-                        System.out.println("-----Draw!-----");
-                        isBeingPlayed = false;
-                        continue;
-                    }
+                switch(input){
+                    case "exit" -> System.exit(0);
+                    case "draw" -> {
+                        if(colour == Colour.WHITE){
+                            whiteDraw = true;
+                        }else{
+                            blackDraw = true;
+                        }
+                        if(whiteDraw && blackDraw){
+                            System.out.println("-----Draw!-----");
+                            isBeingPlayed = false;
+                            continue;
+                        }
                     whoseTurn++;
-                }else if((whiteDraw || blackDraw) && input.equals("decline")){
-                    System.out.println(colour + " declined the draw!");
-                    whiteDraw = false;
-                    blackDraw = false;
-                    whoseTurn++;
-                }else{
-                    if(Board.moveProcessing(input, colour)){
+                    }
+                    case "decline" -> {
+                        System.out.println(colour + " declined the draw!");
+                        whiteDraw = false;
+                        blackDraw = false;
                         whoseTurn++;
-                        Board.printBoard();
-                    }else {
-                        System.out.println("Invalid move!");
+                    }
+                    case "save" -> Board.saveGame();
+                    case "load" -> {
+                        whoseTurn = 0;
+                        Board.loadGame();
+                    }
+                    default -> {
+                        if(Board.moveProcessing(input, colour)){
+                            whoseTurn++;
+                            Board.printBoard();
+                        }else{
+                            System.out.println("Invalid move!");
+                        }
                     }
                 }
             }
+
             Scanner decision = new Scanner(System.in);
             System.out.println("Do you want to play again? (yes/no): ");
             String input = decision.nextLine();
-            if(input.equals("no")){
-                System.exit(0);
+            switch(input){
+                case "no" -> System.exit(0);
+                case "save" -> Board.saveGame();
+                case "load" -> Board.loadGame();
             }
         }
     }

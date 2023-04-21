@@ -4,6 +4,7 @@ public abstract class Piece implements UnicodePiece, Movable{
     private Colour colour;
     private int y, x;
     private boolean firstMove;
+    private int value;
 
     public Piece(Colour colour, int y, int x) {
         this.colour = colour;
@@ -35,6 +36,10 @@ public abstract class Piece implements UnicodePiece, Movable{
 
     public boolean isFirstMove() {
         return firstMove;
+    }
+
+    public void setValue(int value){
+        this.value = value;
     }
 
     public boolean isMoveValidAndNotChecked(int destY, int destX){
@@ -93,4 +98,7 @@ public abstract class Piece implements UnicodePiece, Movable{
         this.firstMove = isFirst;
     }
 
+    public int getPieceTypeValue(){
+        return this.value;
+    }
 }

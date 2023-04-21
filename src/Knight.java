@@ -1,6 +1,7 @@
 public class Knight extends Piece{
     public Knight(Colour colour, int y, int x) {
         super(colour, y, x);
+        this.setValue(5);
     }
 
     public String toString(){return Colour.WHITE == this.getColour() ? "♞" : "\u001B[30m♞";}

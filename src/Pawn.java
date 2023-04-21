@@ -6,6 +6,7 @@ public class Pawn extends Piece{
     public Pawn(Colour colour, int y, int x) {
         super(colour, y, x);
         this.enPassantable = false;
+        this.setValue(0);
     }
 
     public String toString() {
@@ -125,6 +126,7 @@ public class Pawn extends Piece{
                             inputValid = false;
                         }
                     }
+                    Board.capturePiece(this);
                 }
                 System.out.println("Piece promoted!\n");
             }
