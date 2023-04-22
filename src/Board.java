@@ -66,7 +66,7 @@ public class Board {
                     System.out.print("Captured pieces:");
                     for (int j = 0; j < board[0][0].size(); j++) {
                         if(board[0][0].get(j).getColour() == Colour.BLACK){
-                            System.out.print(board[0][0].get(j) + " ");
+                            System.out.print(board[0][0].get(j));
                         }
                     }
                 }
@@ -78,12 +78,17 @@ public class Board {
     }
 
     public static void setPiecePos(Piece piece){
-        if(board[piece.getY()][piece.getX()] == null) {
-            board[piece.getY()][piece.getX()] = new ArrayList<>();
+        int y = piece.getY();
+        int x = piece.getX();
+        if(board[y][x] == null) {
+            board[y][x] = new ArrayList<>();
+            board[y][x].add(piece);
+        }else if(board[0][0] != null && y == 0 && x == 0){
+            board[y][x].add(piece);
         }else{
-            board[piece.getY()][piece.getX()].clear();
+            board[y][x].clear();
+            board[y][x].add(piece);
         }
-        board[piece.getY()][piece.getX()].add(piece);
     }
 
     public static void moveProcessing(String input, Colour colour) throws InvalidInputException{
@@ -126,7 +131,7 @@ public class Board {
 
         if(!didCastle){
             if(!piece.isMoveValidAndNotChecked(destY, destX)) {
-                throw new InvalidInputException("Invalid move! Your king will be checked!\n");
+                throw new InvalidInputException("Invalid move!\n");
             }else{
                 piece.movePiece(destY, destX);
             }
