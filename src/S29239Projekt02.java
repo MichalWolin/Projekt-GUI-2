@@ -19,11 +19,11 @@ public class S29239Projekt02 {
 
                 if(Board.isChecked(kingPosition)){
                     if(Board.isCheckedMated(kingPosition)){
-                        System.out.println("-----Checkmate!-----");
+                        System.out.println("\u001B[31mCheckmate!\u001B[0m");
                         isBeingPlayed = false;
                         continue;
                     }
-                    System.out.println("Your king is checked!");
+                    System.out.println("\u001B[31mYour king is checked!\u001B[0m");
                 }
 
                 if(whiteDraw || blackDraw){
@@ -48,7 +48,7 @@ public class S29239Projekt02 {
                             blackDraw = true;
                         }
                         if(whiteDraw && blackDraw){
-                            System.out.println("-----Draw!-----");
+                            System.out.println("\u001B[32m-----Draw!-----\u001B[0m");
                             isBeingPlayed = false;
                             continue;
                         }
@@ -66,11 +66,12 @@ public class S29239Projekt02 {
                         Board.loadGame();
                     }
                     default -> {
-                        if(Board.moveProcessing(input, colour)){
+                        try{
+                            Board.moveProcessing(input, colour);
                             whoseTurn++;
                             Board.printBoard();
-                        }else{
-                            System.out.println("Invalid move!");
+                        } catch (InvalidInputException e) {
+                            System.out.print(e.getMessage());
                         }
                     }
                 }

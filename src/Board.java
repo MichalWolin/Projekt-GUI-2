@@ -86,10 +86,9 @@ public class Board {
         board[piece.getY()][piece.getX()].add(piece);
     }
 
-    public static boolean moveProcessing(String input, Colour colour){
+    public static void moveProcessing(String input, Colour colour) throws InvalidInputException{
         if(input.length() != 5){
-            System.out.println("Invalid input!");
-            return false;
+            throw new InvalidInputException("Your input is too short!\n");
         }
 
         int sourceY = input.charAt(1) - '0';
@@ -97,27 +96,22 @@ public class Board {
         int destY = input.charAt(4) - '0';
         int destX = input.charAt(3) - 'a' + 1;
         if(sourceY == destY && sourceX == destX){
-            System.out.println("You cannot move to the same field!");
-            return false;
+            throw new InvalidInputException("You cannot move to the same field!\n");
         }
 
         if(sourceY < 1 || sourceY > 8 || sourceX < 1 || sourceX > 8
                 || destY < 1 || destY > 8 || destX < 1 || destX > 8){
-
-            System.out.println("You cannot move out of bounds!");
-            return false;
+            throw new InvalidInputException("You cannot move out of bounds!\n");
         }
 
         if (board[sourceY][sourceX] == null) {
-            System.out.println("There is no piece on this field!");
-            return false;
+            throw new InvalidInputException("There is no piece on this field!\n");
         }
 
         Piece piece = board[sourceY][sourceX].get(0);
 
         if (piece.getColour() != colour) {
-            System.out.println("This is not your piece!");
-            return false;
+            throw new InvalidInputException("This is not your piece!\n");
         }
 
         boolean didCastle = false;
@@ -132,15 +126,13 @@ public class Board {
 
         if(!didCastle){
             if(!piece.isMoveValidAndNotChecked(destY, destX)) {
-                return false;
+                throw new InvalidInputException("Invalid move! Your king will be checked!\n");
             }else{
                 piece.movePiece(destY, destX);
             }
         }
 
         flushEnPassantable(colour);
-
-        return true;
     }
 
     public static void capturePiece(Piece piece){

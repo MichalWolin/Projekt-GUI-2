@@ -26,7 +26,7 @@ public class King extends Piece{
 
         if(Math.abs(srcY - destY) == 1 && Math.abs(srcX - destX) == 1 ||
                 Math.abs(srcY - destY) == 1 && Math.abs(srcX - destX) == 0 ||
-                Math.abs(srcY - destY) == 0 && Math.abs(srcX - destY) == 1){
+                Math.abs(srcY - destY) == 0 && Math.abs(srcX - destX) == 1){
             return true;
         }
 
