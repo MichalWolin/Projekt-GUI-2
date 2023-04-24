@@ -322,6 +322,10 @@ public class Board {
     public static void loadGame(){
         File file = new File("src/chess.bin");
 
+        if(board[0][0] != null){
+            tileSetNull(0, 0);
+        }
+
         for (int i = 1; i <= 8; i++) {
             for (int j = 1; j <= 8; j++) {
                 tileSetNull(i, j);

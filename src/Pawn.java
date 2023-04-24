@@ -82,8 +82,8 @@ public class Pawn extends Piece{
                 enemyPawn = (Pawn)Board.getPiece(destY + 1, destX);
             }
 
-            Board.capturePiece(enemyPawn);
             Board.tileSetNull(enemyPawn.getY(), enemyPawn.getX());
+            Board.capturePiece(enemyPawn);
             this.setY(destY);
             this.setX(destX);
             Board.setPiecePos(this);
